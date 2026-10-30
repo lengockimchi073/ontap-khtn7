@@ -1,0 +1,1694 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trạm ôn tập hóa học - TH–THCS–THPT Việt Hoa</title>
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-light: #e0e7ff;
+      --primary-dark: #3730a3;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #16a34a;
+      --success-bg: #dcfce7;
+      --danger: #dc2626;
+      --danger-bg: #fee2e2;
+      --warning: #d97706;
+      --warning-bg: #fef3c7;
+      --radius: 12px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+    body { background-color: var(--bg); color: var(--text); line-height: 1.6; padding-bottom: 60px; }
+    header { background: linear-gradient(135deg, #4338ca, #6366f1); color: white; padding: 1.25rem 1rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); }
+    .header-content { max-width: 1000px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 0.75rem; }
+    .brand h1 { font-size: 1.4rem; font-weight: 700; }
+    .brand p { font-size: 0.85rem; opacity: 0.9; }
+    .btn { padding: 0.5rem 1rem; border-radius: 8px; border: none; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem; }
+    .btn-primary { background: var(--primary); color: white; }
+    .btn-primary:hover { background: var(--primary-dark); }
+    .btn-outline { background: transparent; border: 1.5px solid currentColor; color: inherit; }
+    .btn-outline:hover { background: rgba(255,255,255,0.15); }
+    .btn-sm { padding: 0.25rem 0.5rem; font-size: 0.8rem; }
+    .container { max-width: 1000px; margin: 1.5rem auto; padding: 0 1rem; }
+    .card { background: var(--surface); border-radius: var(--radius); padding: 1.25rem; border: 1px solid var(--border); box-shadow: 0 1px 3px rgba(0,0,0,0.05); margin-bottom: 1.25rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
+    .badge { padding: 0.2rem 0.6rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; }
+    .badge-primary { background: var(--primary-light); color: var(--primary); }
+    .nav-tabs { display: flex; gap: 0.5rem; border-bottom: 2px solid var(--border); margin-bottom: 1.25rem; overflow-x: auto; }
+    .nav-tab { padding: 0.6rem 1rem; cursor: pointer; border-bottom: 3px solid transparent; font-weight: 600; color: var(--text-muted); white-space: nowrap; }
+    .nav-tab.active { color: var(--primary); border-bottom-color: var(--primary); }
+    
+    /* Làm bài */
+    .question-nav { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 1.25rem; padding: 0.75rem; background: #f1f5f9; border-radius: 8px; }
+    .q-btn { width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; border-radius: 6px; border: 1px solid #cbd5e1; background: white; font-size: 0.85rem; font-weight: bold; cursor: pointer; }
+    .q-btn.active { border-color: var(--primary); box-shadow: 0 0 0 2px var(--primary); }
+    .q-btn.done { background: var(--primary-light); color: var(--primary-dark); border-color: var(--primary); }
+    .q-btn.correct { background: var(--success-bg); color: var(--success); border-color: var(--success); }
+    .q-btn.wrong { background: var(--danger-bg); color: var(--danger); border-color: var(--danger); }
+    
+    .q-item { border-bottom: 1px solid var(--border); padding-bottom: 1.5rem; margin-bottom: 1.5rem; }
+    .q-item:last-child { border-bottom: none; }
+    .q-title { font-weight: 600; margin-bottom: 0.75rem; font-size: 1.05rem; }
+    .options { display: flex; flex-direction: column; gap: 0.5rem; }
+    .option-label { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.6rem 0.8rem; border: 1.5px solid var(--border); border-radius: 8px; cursor: pointer; transition: 0.15s; }
+    .option-label:hover { background: #f8fafc; border-color: #cbd5e1; }
+    .option-label.selected { border-color: var(--primary); background: #eef2ff; }
+    .option-label.ans-correct { border-color: var(--success); background: var(--success-bg); font-weight: 600; }
+    .option-label.ans-wrong { border-color: var(--danger); background: var(--danger-bg); }
+    
+    .explanation-box { margin-top: 0.75rem; padding: 0.85rem; border-radius: 8px; background: #f8fafc; border-left: 4px solid var(--primary); font-size: 0.9rem; }
+    .tf-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+    .tf-table th, .tf-table td { padding: 0.6rem; border: 1px solid var(--border); text-align: left; }
+    .tf-table th { background: #f1f5f9; }
+    
+    .text-box { width: 100%; min-height: 80px; padding: 0.6rem; border: 1.5px solid var(--border); border-radius: 8px; margin-top: 0.5rem; resize: vertical; }
+    .checklist-item { display: flex; align-items: flex-start; gap: 0.5rem; margin: 0.4rem 0; font-size: 0.9rem; }
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; padding: 1rem; z-index: 100; }
+    .modal { background: white; padding: 1.5rem; border-radius: var(--radius); width: 100%; max-width: 500px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); }
+  </style>
+</head>
+<body>
+
+<header>
+  <div class="header-content">
+    <div class="brand">
+      <h1>Trạm ôn tập hóa học</h1>
+      <p>Trường TH–THCS–THPT Việt Hoa • GV: Huỳnh Văn Diễn • Năm học 2026–2027</p>
+    </div>
+    <div style="display: flex; gap: 0.5rem;">
+      <button class="btn btn-outline" onclick="goToHome()">Trang chủ</button>
+      <button class="btn btn-outline" id="btn-gv" onclick="openGvAuth()">Góc giáo viên</button>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+  <!-- Màn hình trang chủ -->
+  <div id="view-home">
+    <div class="card" style="background: linear-gradient(135deg, #eef2ff, #f8fafc); border-color: #c7d2fe;">
+      <h2 style="color: var(--primary-dark); margin-bottom: 0.5rem;">Lộ trình ôn tập thông minh</h2>
+      <p style="color: var(--text-muted); font-size: 0.95rem;">
+        Quy trình chuẩn: <strong>Tự làm hết một phần → Nộp bài và kiểm tra → Đọc lý do đúng/sai → Ghi điều cần nhớ → Làm lại câu sai.</strong><br>
+        Không so sánh thành tích, hướng đến hiểu sâu kiến thức cốt lõi.
+      </p>
+    </div>
+
+    <h3 style="margin-bottom: 1rem;">Khối lớp có dữ liệu ôn tập:</h3>
+    <div class="grid" id="grade-cards">
+      <!-- Khối 7 tạo tự động từ CSDL -->
+    </div>
+  </div>
+
+  <!-- Màn hình danh mục phần ôn tập -->
+  <div id="view-sections" style="display:none;">
+    <button class="btn btn-outline" onclick="goToHome()" style="color: var(--text); border-color: #cbd5e1; margin-bottom: 1rem;">← Chọn khối khác</button>
+    <div class="card">
+      <h2 id="section-grade-title">Ôn tập Khoa học Tự nhiên 7</h2>
+      <p style="color: var(--text-muted); margin-bottom: 1rem;">Chọn nội dung bạn muốn luyện tập dưới đây:</p>
+      
+      <div class="grid" id="sections-list">
+        <!-- Các phần được render động -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Màn hình làm bài -->
+  <div id="view-quiz" style="display:none;">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; flex-wrap: wrap; gap: 0.5rem;">
+      <button class="btn btn-outline" onclick="backToSections()" style="color: var(--text); border-color: #cbd5e1;">← Đổi phần ôn tập</button>
+      <div style="display:flex; align-items:center; gap: 0.5rem;">
+        <label style="font-size: 0.85rem; font-weight:600;">Hiển thị:</label>
+        <select id="select-paging" class="btn btn-outline" style="color: var(--text); border-color: #cbd5e1; padding: 0.35rem 0.6rem;" onchange="changePaging(this.value)">
+          <option value="1">1 câu / trang</option>
+          <option value="5">5 câu / trang</option>
+          <option value="10">10 câu / trang</option>
+          <option value="all" selected>Tất cả câu</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+        <span class="badge badge-primary" id="quiz-title-badge">Trắc nghiệm</span>
+        <span id="quiz-progress" style="font-size: 0.85rem; font-weight: 600; color: var(--text-muted);">Đã trả lời: 0/0</span>
+      </div>
+
+      <!-- Bảng số câu điều hướng nhanh -->
+      <div class="question-nav" id="quiz-nav-grid"></div>
+
+      <!-- Vùng chứa các câu hỏi -->
+      <div id="questions-container"></div>
+
+      <!-- Thanh điều hướng và nút nộp bài -->
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 1.5rem; flex-wrap: wrap; gap: 0.5rem;">
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline" id="btn-prev" onclick="navPage(-1)" style="color: var(--text); border-color: #cbd5e1;">« Trang trước</button>
+          <button class="btn btn-outline" id="btn-next" onclick="navPage(1)" style="color: var(--text); border-color: #cbd5e1;">Trang tiếp »</button>
+        </div>
+        <div style="display: flex; gap: 0.5rem;">
+          <button class="btn btn-outline" onclick="resetCurrentQuiz()" style="color: var(--text); border-color: #cbd5e1;">Làm lượt mới</button>
+          <button class="btn btn-primary" id="btn-submit" onclick="confirmSubmitQuiz()">Nộp bài kiểm tra</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Màn hình Góc giáo viên -->
+  <div id="view-teacher" style="display:none;">
+    <div style="display:flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+      <h2>Góc quản trị đề mục - Giáo viên</h2>
+      <button class="btn btn-outline" style="color: var(--danger); border-color: var(--danger);" onclick="lockTeacher()">Khóa Góc giáo viên</button>
+    </div>
+    
+    <div class="card">
+      <div class="nav-tabs">
+        <div class="nav-tab active" onclick="switchGvTab('review')">Rà soát câu hỏi & Đáp án</div>
+        <div class="nav-tab" onclick="switchGvTab('json')">Sao lưu / Nhập JSON</div>
+      </div>
+
+      <div id="gv-tab-review">
+        <p style="margin-bottom: 1rem; font-size: 0.9rem; color: var(--text-muted);">
+          Ghi chú nội bộ: Câu hỏi được trích xuất hoàn chỉnh từ tài liệu ôn tập Giữa kì I. Thầy có thể điều chỉnh lời giải, bổ sung lưu ý hoặc xuất bộ dữ liệu hoàn chỉnh.
+        </p>
+        <div id="gv-questions-list"></div>
+      </div>
+
+      <div id="gv-tab-json" style="display:none;">
+        <div style="margin-bottom: 1rem;">
+          <button class="btn btn-primary" onclick="exportDataJson()">Tải file JSON Ngân hàng</button>
+        </div>
+        <label style="font-weight:600; display:block; margin-bottom:0.5rem;">Nhập ngân hàng câu hỏi mới (JSON):</label>
+        <textarea id="import-json-area" class="text-box" style="height: 150px;" placeholder="Dán mã JSON câu hỏi vào đây..."></textarea>
+        <button class="btn btn-primary" style="margin-top:0.5rem;" onclick="importDataJson()">Cập nhật CSDL</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal xác nhận nộp bài -->
+<div id="modal-submit" class="modal-overlay" style="display:none;">
+  <div class="modal">
+    <h3 style="margin-bottom: 0.5rem;">Xác nhận nộp bài</h3>
+    <p id="modal-submit-msg" style="margin-bottom: 1.25rem; font-size: 0.95rem;"></p>
+    <div style="display:flex; justify-content:flex-end; gap:0.5rem;">
+      <button class="btn btn-outline" onclick="closeModal('modal-submit')" style="color: var(--text); border-color: #cbd5e1;">Quay lại làm tiếp</button>
+      <button class="btn btn-primary" onclick="executeSubmitQuiz()">Vẫn nộp bài</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ==================== CƠ SỞ DỮ LIỆU ĐỀ CƯƠNG TÀI LIỆU KHTN 7 ==================== */
+const DB_VERSION = "2026_KHTN7_V1";
+const QUIZ_DATA = {
+  grade7: {
+    title: "Khoa học Tự nhiên 7 (Hóa học)",
+    sections: {
+      mcq: {
+        id: "mcq",
+        title: "1. Trắc nghiệm bốn lựa chọn",
+        desc: "70 câu hỏi bao gồm Bài 2 (Nguyên tử), Bài 3 (Nguyên tố hóa học) và Bài 4 (Bảng tuần hoàn)",
+        questions: [
+          // BÀI 2. NGUYÊN TỬ - NHẬN BIẾT
+          {
+            id: "B2_NB_1",
+            text: "Các hạt cấu tạo nên hạt nhân của hầu hết nguyên tử là...",
+            options: ["A. electron và neutron.", "B. proton và neutron.", "C. electron, proton và neutron.", "D. electron và proton."],
+            correct: 1,
+            explain: "Hạt nhân nguyên tử được tạo thành từ 2 loại hạt chính là proton (mang điện tích dương) và neutron (không mang điện). Vỏ nguyên tử mới chứa electron."
+          },
+          {
+            id: "B2_NB_7",
+            text: "Các hạt cấu tạo nên hầu hết các nguyên tử là:",
+            options: ["A. Electron và neutron.", "B. Proton và neutron.", "C. Electron, proton và neutron.", "D. Electron và proton."],
+            correct: 2,
+            explain: "Hầu hết các nguyên tử được cấu tạo từ 3 loại hạt hạ nguyên tử: proton, neutron (trong hạt nhân) và electron (ở lớp vỏ)."
+          },
+          {
+            id: "B2_NB_8",
+            text: "Hạt mang điện trong hạt nhân nguyên tử là...",
+            options: ["A. electron.", "B. neutron.", "C. neutron và electron.", "D. proton."],
+            correct: 3,
+            explain: "Trong hạt nhân chỉ có proton mang điện (+1), còn neutron không mang điện. (Electron mang điện âm nằm ở vỏ, không thuộc hạt nhân)."
+          },
+          {
+            id: "B2_NB_9",
+            text: "Trong nguyên tử, loại hạt có khối lượng không đáng kể so với các hạt còn lại là…",
+            options: ["A. electron.", "B. proton.", "C. neutron.", "D. neutron và electron."],
+            correct: 0,
+            explain: "Khối lượng của electron rất nhỏ (khoảng 0,00055 amu), chỉ bằng khoảng 1/1836 khối lượng proton hay neutron nên được xem là không đáng kể."
+          },
+          {
+            id: "B2_NB_10",
+            text: "Nguyên tử luôn trung hoà về điện nên…",
+            options: ["A. số hạt protron = số hạt neutron.", "B. số hạt proton = số hạt electron.", "C. số hạt electron = số hạt neutron.", "D. số hạt proton = số hạt electron = số hạt neutron."],
+            correct: 1,
+            explain: "Mỗi proton mang 1 đơn vị điện tích dương, mỗi electron mang 1 đơn vị điện tích âm. Để trung hòa về điện thì số hạt proton luôn bằng số hạt electron."
+          },
+          {
+            id: "B2_NB_11",
+            text: "Điện tích của hạt nhân do hạt nào quyết định?",
+            options: ["A. Hạt electron.", "B. Hạt neutron.", "C. Hạt proton.", "D. Hạt proton và electron."],
+            correct: 2,
+            explain: "Trong hạt nhân, hạt neutron không mang điện, do đó toàn bộ điện tích hạt nhân là điện tích dương do các hạt proton quyết định."
+          },
+          {
+            id: "B2_NB_12",
+            text: "Proton và neutron có khối lượng xấp xỉ bằng nhau và gần bằng…",
+            options: ["A. 2 amu.", "B. 0,00055 amu.", "C. 12 amu.", "D. 1 amu."],
+            correct: 3,
+            explain: "Quy ước quốc tế lấy khối lượng hạt proton và hạt neutron xấp xỉ bằng nhau và xấp xỉ bằng 1 amu."
+          },
+          {
+            id: "B2_NB_14",
+            text: "Nguyên tử có cấu tạo như thế nào?",
+            options: [
+              "A. Nguyên tử có cấu tạo gồm hạt nhân ở bên trong và vỏ tạo bởi một hay nhiều electron mang điện tích âm.",
+              "B. Nguyên tử có cấu tạo bởi các electron mang điện tích âm.",
+              "C. Nguyên tử có cấu tạo gồm hạt nhân và neutron.",
+              "D. Nguyên tử có cấu tạo bởi hạt proton và neutron."
+            ],
+            correct: 0,
+            explain: "Nguyên tử gồm hạt nhân mang điện dương ở tâm và lớp vỏ gồm một hay nhiều electron mang điện âm chuyển động xung quanh."
+          },
+          {
+            id: "B2_NB_15",
+            text: "Qui ước lấy amu (hay đvC) làm khối lượng nguyên tử. Một amu có khối lượng bằng:",
+            options: ["A. 1,6605.10-24g.", "B. 12 khối lượng nguyên tử C.", "C. 1,6605.10-24kg.", "D. 1,6605.10-25g."],
+            correct: 0,
+            explain: "Theo định nghĩa, 1 amu = 1,6605 × 10^-24 g (hoặc 1,6605 × 10^-27 kg, bằng 1/12 khối lượng của một nguyên tử carbon)."
+          },
+          {
+            id: "B2_NB_16",
+            text: "Trong nguyên tử, các hạt mang điện là...",
+            options: ["A. electron và neutron.", "B. electron và proton.", "C. proton và neuton.", "D. proton."],
+            correct: 1,
+            explain: "Các hạt mang điện trong nguyên tử gồm proton (mang điện tích +) và electron (mang điện tích -)."
+          },
+          {
+            id: "B2_NB_17",
+            text: "Một nguyên tử carbon có khối lượng là…",
+            options: ["A. 1amu.", "B. 1,9926.10-23kg.", "C. 1,9926.10-23g.", "D. 1,6605.10-23g."],
+            correct: 2,
+            explain: "Khối lượng thực của 1 nguyên tử carbon xấp xỉ bằng 12 × 1,6605.10^-24 g ≈ 1,9926.10^-23 g."
+          },
+          {
+            id: "B2_NB_18",
+            text: "Phát biểu nào sau đây là đúng?",
+            options: [
+              "A. Hạt nhân nguyên tử được tạo bởi hạt proton và hạt electron.",
+              "B. Hạt nhân nguyên tử chứa hạt proton mang điện tích âm (-).",
+              "C. Trong một nguyên tử: số electron = số proton = số neutron.",
+              "D. Nguyên tử có kích thước vô cùng nhỏ, tạo nên các chất."
+            ],
+            correct: 3,
+            explain: "Mọi chất đều được cấu tạo từ các hạt vô cùng nhỏ bé gọi là nguyên tử. Các ý A, B, C đều sai về thành phần hạt hoặc điện tích."
+          },
+          {
+            id: "B2_NB_19",
+            text: "Nhận định nào sau đây là sai?",
+            options: [
+              "A. Hạt nhân nguyên tử được cấu tạo nên bởi các hạt proton, electron và neutron.",
+              "B. Trong nguyên tử, các electron ở vỏ được xếp thành từng lớp và chuyển động xung quanh hạt nhân.",
+              "C. Trong hạt nhân nguyên tử, số đơn vị điện tích hạt nhân bằng số proton.",
+              "D. Các chất đều tạo nên từ những hạt vô cùng nhỏ, gọi là nguyên tử."
+            ],
+            correct: 0,
+            explain: "Hạt nhân chỉ gồm proton và neutron, không chứa electron. Electron thuộc phần vỏ ngoài nguyên tử."
+          },
+          {
+            id: "B2_NB_20",
+            text: "Khối lượng nguyên tử là khối lượng của một nguyên tử, được tính theo đơn vị quốc tế là",
+            options: ["A. gam.", "B. amu.", "C. kilogam.", "D. tấn."],
+            correct: 1,
+            explain: "Khối lượng nguyên tử thường được đo bằng đơn vị khối lượng nguyên tử quốc tế là amu (atomic mass unit)."
+          },
+          // BÀI 2 - THÔNG HIỂU
+          {
+            id: "B2_TH_1",
+            text: "Các nguyên tử của những nguyên tố khác nhau thì sẽ có số hạt nào khác nhau?",
+            options: ["A. Số hạt neutron.", "B. Cả số hạt electron và số hạt neutron.", "C. Số hạt proton.", "D. Cả số hạt proton và số hạt neutron."],
+            correct: 2,
+            explain: "Số proton là đại lượng đặc trưng nhận diện một nguyên tố hóa học. Các nguyên tố khác nhau luôn có số proton khác nhau."
+          },
+          {
+            id: "B2_TH_2",
+            text: "Giá trị điện tích 1- và khối lượng 0,00055 amu là của hạt nào dưới đây trong nguyên tử?",
+            options: ["A. Neutron.", "B. Proton.", "C. Ion.", "D. Electron."],
+            correct: 3,
+            explain: "Hạt electron có điện tích bằng -1 và khối lượng xấp xỉ 0,00055 amu."
+          },
+          {
+            id: "B2_TH_3",
+            text: "Một đơn vị khối lượng nguyên tử (1 amu) theo định nghĩa có giá trị bằng...",
+            options: ["A. 1/12 khối lượng của nguyên tử carbon.", "B. 1/32 khối lượng của nguyên tử sulfur.", "C. 1/16 khối lượng của nguyên tử oxygen.", "D. 1/10 khối lượng của nguyên tử boron."],
+            correct: 0,
+            explain: "1 amu quy ước chuẩn bằng 1/12 khối lượng của một nguyên tử carbon-12."
+          },
+          {
+            id: "B2_TH_4",
+            text: "Trong các nguyên tử sau, nguyên tử nào có khối lượng nguyên tử lớn nhất?",
+            options: ["A. Oxygen.", "B. Calcium.", "C. Sodium.", "D. Hiđrogen."],
+            correct: 1,
+            explain: "Khối lượng nguyên tử: H (1 amu) < O (16 amu) < Na (23 amu) < Ca (40 amu). Do đó Calcium có khối lượng lớn nhất."
+          },
+          {
+            id: "B2_TH_5",
+            text: "Nguyên tử X có 26 proton trong hạt nhân. Cho các phát biểu sau về X:\n(1) X có 26 neutron trong hạt nhân.\n(2) X có 26 electron ở vỏ nguyên tử.\n(3) X có điện tích hạt nhân là 26+.\n(4) Khối lượng nguyên tử X là 26 amu.\nTrong các phát biểu trên, số phát biểu đúng là:",
+            options: ["A. 1.", "B. 3.", "C. 2.", "D. 4."],
+            correct: 2,
+            explain: "Có 2 phát biểu đúng là (2) và (3). Phát biểu (1) sai vì số neutron không nhất thiết bằng số proton; phát biểu (4) sai vì khối lượng gồm cả proton và neutron (lớn hơn 26 amu)."
+          },
+          {
+            id: "B2_TH_9",
+            text: "Số electron có trong nguyên tử chlorine có số đơn vị điện tích hạt nhân 17 là:",
+            options: ["A. 18.", "B. 35.", "C. 16.", "D. 17."],
+            correct: 3,
+            explain: "Số đơn vị điện tích hạt nhân Z = 17 => Số proton = 17 => Số electron = 17 (do nguyên tử trung hòa điện)."
+          },
+          {
+            id: "B2_TH_10",
+            text: "Nguyên tử fluorine có 9 proton, 9 electron và 10 neutron. Khối lượng nguyên tử fluorine là:",
+            options: ["A. 19 amu.", "B. 9 amu.", "C. 10 amu.", "D. 28 amu."],
+            correct: 0,
+            explain: "Khối lượng xấp xỉ của nguyên tử = khối lượng (proton + neutron) = 9 + 10 = 19 amu."
+          },
+          {
+            id: "B2_TH_11",
+            text: "Nguyên tử phosphorus có 15 proton, 16 hạt neutron nên khối lượng nguyên tử của phosphorus là…",
+            options: ["A. 15 amu.", "B. 31 amu.", "C. 16 amu.", "D. 46 amu."],
+            correct: 1,
+            explain: "Khối lượng nguyên tử phosphorus ≈ 15 (p) + 16 (n) = 31 amu."
+          },
+          {
+            id: "B2_TH_12",
+            text: "Một nguyên tử có 9 electron ở lớp vỏ, hạt nhân của nó có 10 neutron. Tổng số hạt trong nguyên tử đó là:",
+            options: ["A. 18.", "B. 19.", "C. 28.", "D. 9."],
+            correct: 2,
+            explain: "Số e = 9 => số p = 9. Tổng số hạt trong nguyên tử = p + e + n = 9 + 9 + 10 = 28 hạt."
+          },
+          // BÀI 3. NGUYÊN TỐ HÓA HỌC - NHẬN BIẾT
+          {
+            id: "B3_NB_1",
+            text: "Nguyên tố hóa học là tập hợp nguyên tử cùng loại có….",
+            options: ["A. cùng số neutron trong hạt nhân.", "B. cùng số electron trong hạt nhân.", "C. cùng số proton và số neutron trong hạt nhân.", "D. cùng số proton trong hạt nhân."],
+            correct: 3,
+            explain: "Định nghĩa: Tập hợp các nguyên tử có cùng số proton trong hạt nhân đều thuộc cùng một nguyên tố hóa học."
+          },
+          {
+            id: "B3_NB_2",
+            text: "Điền từ phù hợp vào chỗ trống: “Số …… là số đặc trưng của một nguyên tố hóa học”.",
+            options: ["A. proton.", "B. neuotron.", "C. electron.", "D. neutron và electron."],
+            correct: 0,
+            explain: "Số proton trong hạt nhân là đại lượng đặc trưng của một nguyên tố hóa học."
+          },
+          {
+            id: "B3_NB_3",
+            text: "Kí hiệu hóa học của nguyên tố iron là",
+            options: ["A. FE.", "B. Fe.", "C. fE.", "D. fe."],
+            correct: 1,
+            explain: "Kí hiệu hóa học của Iron gồm chữ cái đầu viết hoa và chữ thứ hai viết thường: Fe."
+          },
+          {
+            id: "B3_NB_4",
+            text: "Kí hiệu hóa học của nguyên tố copper là",
+            options: ["A. CU.", "B. cu", "C. Cu.", "D. cU."],
+            correct: 2,
+            explain: "Copper có kí hiệu hóa học là Cu."
+          },
+          {
+            id: "B3_NB_5",
+            text: "Kí hiệu hóa học của nguyên tố sodium là",
+            options: ["A. na.", "B. NA.", "C. nA.", "D. Na."],
+            correct: 3,
+            explain: "Sodium có kí hiệu hóa học là Na."
+          },
+          {
+            id: "B3_NB_6",
+            text: "Nguyên tố hóa học có kí hiệu Al là",
+            options: ["A. aluminium.", "B. sodium.", "C. potassum.", "D. neon."],
+            correct: 0,
+            explain: "Al là kí hiệu hóa học của nguyên tố Aluminium (Nhôm)."
+          },
+          {
+            id: "B3_NB_7",
+            text: "Nguyên tố hóa học có kí hiệu Ag là",
+            options: ["A. barium.", "B. silver.", "C. solfur.", "D. phosphorus."],
+            correct: 1,
+            explain: "Ag (từ tiếng Latin Argentum) là kí hiệu của nguyên tố Silver (Bạc)."
+          },
+          {
+            id: "B3_NB_8",
+            text: "Hiện nay, số lượng nguyên tố hóa học tìm thấy trong tự nhiên là",
+            options: ["A. 98.", "B. 118.", "C. 102.", "D. 82."],
+            correct: 0,
+            explain: "Trong 118 nguyên tố đã biết, có khoảng 98 nguyên tố được tìm thấy trong tự nhiên."
+          },
+          {
+            id: "B3_NB_9",
+            text: "Hiện nay, số lượng nguyên tố hóa học được xác định là",
+            options: ["A. 98.", "B. 102.", "C. 118.", "D. 82."],
+            correct: 2,
+            explain: "Tổng số nguyên tố hóa học đã được xác nhận trong bảng tuần hoàn hiện nay là 118 nguyên tố."
+          },
+          {
+            id: "B3_NB_10",
+            text: "Nguyên tố hóa học nào giúp ngăn ngừa bệnh bướu cổ ở người?",
+            options: ["A. Calcium.", "B. Iron.", "C. Potassium.", "D. Iodine."],
+            correct: 3,
+            explain: "Iodine (I-ốt) là vi chất thiết yếu cho tuyến giáp tổng hợp hormone, giúp phòng ngừa bướu cổ và thiểu năng trí tuệ."
+          },
+          {
+            id: "B3_NB_11",
+            text: "Nguyên tố calcium chiếm phần trăm trong cơ thể người?",
+            options: ["A. 2%.", "B. 4%.", "C. 3%.", "D. 5%."],
+            correct: 0,
+            explain: "Calcium chiếm khoảng 1,5% – 2% trọng lượng cơ thể người, tập trung chủ yếu ở xương và răng."
+          },
+          {
+            id: "B3_NB_12",
+            text: "Kí hiệu hóa học được sử dụng để biểu diễn một nguyên tố hóa học và chỉ một …..",
+            options: ["A. nguyên tố của nguyên tử đó.", "B. nguyên tử của nguyên tố đó.", "C. nguyên tử của nguyên tố khác.", "D. nguyên tố và nguyên tử."],
+            correct: 1,
+            explain: "Mỗi kí hiệu hóa học biểu diễn một nguyên tố và chỉ một nguyên tử của nguyên tố đó."
+          },
+          {
+            id: "B3_NB_13",
+            text: "Kí hiệu hóa học của nguyên tố zinc là",
+            options: ["A. zN.", "B. ZN.", "C. Zn.", "D. zn."],
+            correct: 2,
+            explain: "Zinc (Kẽm) có kí hiệu chuẩn là Zn."
+          },
+          {
+            id: "B3_NB_14",
+            text: "Nguyên tố hóa học có kí hiệu P là",
+            options: ["A. chlorine.", "B. lead.", "C. silver.", "D. phosphorus."],
+            correct: 3,
+            explain: "P là kí hiệu hóa học của Phosphorus (Phốt pho)."
+          },
+          {
+            id: "B3_NB_15",
+            text: "Tên Latin của nguyên tố lead là",
+            options: ["A. plumbum.", "B. kalium.", "C. natrium.", "D. cuprum."],
+            correct: 0,
+            explain: "Lead (Chì) có kí hiệu là Pb, bắt nguồn từ tên Latin là Plumbum."
+          },
+          {
+            id: "B3_NB_16",
+            text: "Tên Latin của nguyên tố sodium là",
+            options: ["A. argentum.", "B. natrium.", "C. plumbum.", "D. silver."],
+            correct: 1,
+            explain: "Sodium có kí hiệu Na, bắt nguồn từ tên Latin Natrium."
+          },
+          {
+            id: "B3_NB_17",
+            text: "Tên Latin của nguyên tố gold là",
+            options: ["A. plumbum.", "B. wolfram", "C. aurum.", "D. cuprum."],
+            correct: 2,
+            explain: "Gold (Vàng) có kí hiệu Au, xuất phát từ tên Latin Aurum."
+          },
+          {
+            id: "B3_NB_18",
+            text: "Silicon có kí hiệu hóa học là",
+            options: ["A. S.", "B. Sn.", "C. Sb.", "D. Si."],
+            correct: 3,
+            explain: "Silicon có kí hiệu là Si. (S là Sulfur, Sn là Tin, Sb là Antimony)."
+          },
+          {
+            id: "B3_NB_19",
+            text: "Magnesium có kí hiệu hóa học là",
+            options: ["A. Mg.", "B. Mgm.", "C. MG.", "D. mg."],
+            correct: 0,
+            explain: "Magnesium có kí hiệu hóa học là Mg."
+          },
+          {
+            id: "B3_NB_20",
+            text: "Nguyên tố hóa học nào chiếm hàm lượng nhỏ nhất trong cơ thể người?",
+            options: ["A. Hydrogen.", "B. Nitrogen.", "C. Carbon.", "D. Oxygen."],
+            correct: 1,
+            explain: "Tỉ lệ xấp xỉ trong 4 nguyên tố chính của cơ thể: O (65%) > C (18,5%) > H (9,5%) > N (3%). Do đó Nitrogen có hàm lượng nhỏ nhất trong 4 nguyên tố này."
+          },
+          // BÀI 3 - THÔNG HIỂU
+          {
+            id: "B3_TH_1",
+            text: "Nguyên tố hóa học nào chiếm hàm lượng lớn nhất trong cơ thể người?",
+            options: ["A. Hydrogen.", "B. Carbon.", "C. Oxygen.", "D. Nitrogen."],
+            correct: 2,
+            explain: "Oxygen chiếm hàm lượng lớn nhất trong cơ thể người (khoảng 65% khối lượng, do nước chiếm phần lớn cơ thể)."
+          },
+          {
+            id: "B3_TH_2",
+            text: "Nguyên tố hóa học chiếm hàm lượng lớn nhất trong cơ thể người là bao nhiêu phần trăm?",
+            options: ["A. 18,5%.", "B. 9,5%.", "C. 3%.", "D. 65%."],
+            correct: 3,
+            explain: "Oxygen chiếm khoảng 65% khối lượng cơ thể người."
+          },
+          {
+            id: "B3_TH_3",
+            text: "Nguyên tố hóa học nào chiếm hàm lượng cao nhất trong trong vỏ Trái Đất?",
+            options: ["A. Oxygen.", "B. Silicon", "C. Nitrogen.", "D. Iron."],
+            correct: 0,
+            explain: "Oxygen là nguyên tố chiếm hàm lượng cao nhất trong vỏ Trái Đất (khoảng 49,4%)."
+          },
+          {
+            id: "B3_TH_4",
+            text: "Trong vỏ Trái Đất oxygen chiếm bao nhiêu phần trăm?",
+            options: ["A. 7,5%.", "B. 49,4%.", "C. 4,7%.", "D. 3,4%."],
+            correct: 1,
+            explain: "Oxygen chiếm xấp xỉ 49,4% khối lượng vỏ Trái Đất."
+          },
+          {
+            id: "B3_TH_5",
+            text: "Nguyên tố hóa học nào chiếm hàm lượng thứ hai trong trong vỏ Trái Đất?",
+            options: ["A. Nitrogen.", "B. Iron.", "C. Silicon.", "D. Calcium."],
+            correct: 2,
+            explain: "Silicon là nguyên tố dồi dào thứ hai trong vỏ Trái Đất (khoảng 27,7% sau Oxygen)."
+          },
+          {
+            id: "B3_TH_6",
+            text: "Trong cơ thể người, hydrogen chiếm bao nhiêu phần trăm?",
+            options: ["A. 65%.", "B. 3%.", "C. 18,5%", "D. 9,5%."],
+            correct: 3,
+            explain: "Nguyên tố Hydrogen chiếm khoảng 9,5% khối lượng cơ thể người."
+          },
+          {
+            id: "B3_TH_7",
+            text: "Số hiệu nguyên tử của oxygen là 8, số hạt proton trong nguyên tử oxygen là",
+            options: ["A. 8.", "B. 24.", "C. 16.", "D. 4."],
+            correct: 0,
+            explain: "Số hiệu nguyên tử Z chính là số hạt proton trong hạt nhân nguyên tử, do đó bằng 8."
+          },
+          {
+            id: "B3_TH_8",
+            text: "Số hiệu nguyên tử của sodium là 11, số hạt proton trong nguyên tử sodium là",
+            options: ["A. 22.", "B. 11.", "C. 33.", "D. 6."],
+            correct: 1,
+            explain: "Số hạt proton bằng đúng số hiệu nguyên tử = 11."
+          },
+          {
+            id: "B3_TH_9",
+            text: "Số hiệu nguyên tử của carbon là 6, số hạt electron trong nguyên tử carbon là",
+            options: ["A. 12.", "B. 18.", "C. 6.", "D. 3."],
+            correct: 2,
+            explain: "Trong nguyên tử trung hòa về điện, số electron = số proton = số hiệu nguyên tử = 6."
+          },
+          {
+            id: "B3_TH_10",
+            text: "Kí kiệu hóa học nào sau đây viết sai?",
+            options: ["A. Fe.", "B. K.", "C. Al.", "D. NA."],
+            correct: 3,
+            explain: "Quy tắc: chữ cái thứ 2 phải viết thường. Kí hiệu của Sodium viết đúng là Na, viết 'NA' là sai quy ước."
+          },
+          {
+            id: "B3_TH_11",
+            text: "Nguyên tố hóa học đứng thứ hai trong vũ trụ là",
+            options: ["A. helium.", "B. oxygen.", "C. hydrogen.", "D. alumium."],
+            correct: 0,
+            explain: "Trong vũ trụ, Hydrogen phổ biến nhất (khoảng 74%), đứng thứ hai là Helium (khoảng 24%)."
+          },
+          {
+            id: "B3_TH_12",
+            text: "Nguyên tố hóa học phổ biến nhất trong vũ trụ là",
+            options: ["A. helium.", "B. hydrogen.", "C. nitrogen.", "D. carbon."],
+            correct: 1,
+            explain: "Hydrogen là nguyên tố phổ biến nhất, chiếm phần lớn vật chất nhìn thấy trong vũ trụ."
+          },
+          // BÀI 3 - VẬN DỤNG
+          {
+            id: "B3_VD_1",
+            text: "Nguyên tố hóa học tham gia trong cấu tạo xương và răng của người và động vật là",
+            options: ["A. sodium.", "B. maganesium.", "C. calcium.", "D. potassium."],
+            correct: 2,
+            explain: "Calcium là thành phần khoáng chất chính cấu tạo nên khung xương và men răng."
+          },
+          {
+            id: "B3_VD_2",
+            text: "Trong các câu sau đây câu nào KHÔNG đúng?",
+            options: [
+              "A. Hạt proton đặc trưng cho một nguyên tố hóa học.",
+              "B. Mỗi nguyên tố hóa học có một kí hiêụ hóa học riêng.",
+              "C. Kí hiệu hóa học được biểu diễn một hay hai chữ cái (chữ cái đầu tiên viết in hoa và nếu có chữ thứ hai viết thường).",
+              "D. Các nguyên tử thuộc cùng một nguyên tố hóa học có số neutron bằng nhau."
+            ],
+            correct: 3,
+            explain: "Các nguyên tử cùng một nguyên tố hóa học luôn có cùng số proton, nhưng có thể có số neutron khác nhau (gọi là các đồng vị)."
+          },
+          {
+            id: "B3_VD_3",
+            text: "Loại hạt nào sau đây đặc trưng cho một nguyên tố hóa học?",
+            options: ["A. Hạt proton.", "B. Hạt electron.", "C. Hạt neutron.", "D. Hạt proton và hạt neutron."],
+            correct: 0,
+            explain: "Hạt proton là hạt đặc trưng nhất của một nguyên tố hóa học."
+          },
+          {
+            id: "B3_VD_4",
+            text: "Nguyên tố hóa học nào cần cho sự phát triển chiều cao của cơ thể người?",
+            options: ["A. sodium.", "B. calcium.", "C. potassium.", "D. iron."],
+            correct: 1,
+            explain: "Calcium cần thiết cho việc hình thành và kéo dài các mô xương trong giai đoạn phát triển chiều cao."
+          },
+          // BÀI 4. BẢNG TUẦN HOÀN - NHẬN BIẾT
+          {
+            id: "B4_NB_1",
+            text: "Bảng tuần hoàn các nguyên tố hóa học được sắp xếp theo:",
+            options: ["A. tính kim loại tăng dần.", "B. nguyên tử khối tăng dần.", "C. chiều tăng dần điện tích hạt nhân của nguyên tử.", "D. tính phi kim tăng dần."],
+            correct: 2,
+            explain: "Nguyên tắc cơ bản nhất: Các nguyên tố được xếp theo chiều tăng dần của điện tích hạt nhân nguyên tử."
+          },
+          {
+            id: "B4_NB_2",
+            text: "Số thứ tự chu kì trong bảng hệ thống tuần hoàn cho biết",
+            options: ["A. số hiệu nguyên tử.", "B. số electron lớp ngoài cùng.", "C. số thứ tự nguyên tố.", "D. số lớp electron."],
+            correct: 3,
+            explain: "Số thứ tự chu kì = số lớp electron của nguyên tử nguyên tố trong chu kì đó."
+          },
+          {
+            id: "B4_NB_3",
+            text: "Số thứ tự nhóm A trong bảng hệ thống tuần hoàn cho biết",
+            options: ["A. số electron lớp ngoài cùng.", "B. số hiệu nguyên tử.", "C. số lớp electron.", "D. số thứ tự nguyên tố."],
+            correct: 0,
+            explain: "Đối với các nhóm A, số thứ tự của nhóm đúng bằng số electron ở lớp ngoài cùng của nguyên tử."
+          },
+          {
+            id: "B4_NB_4",
+            text: "Bảng tuần hoàn gồm bao nhiêu chu kì?",
+            options: ["A. 6", "B. 7", "C. 5", "D. 4"],
+            correct: 1,
+            explain: "Bảng tuần hoàn hiện tại gồm có 7 chu kì (được đánh số từ 1 đến 7)."
+          },
+          {
+            id: "B4_NB_5",
+            text: "Bảng tuần hoàn gồm tất cả bao nhiêu nhóm?",
+            options: ["A. 7", "B. 6", "C. 8", "D. 5"],
+            correct: 2,
+            explain: "Theo phân loại A/B truyền thống trong SGK, bảng gồm 8 nhóm (từ nhóm I đến nhóm VIII)."
+          },
+          {
+            id: "B4_NB_6",
+            text: "Bảng tuần hoàn gồm bao nhiêu nhóm A và bao nhiêu nhóm B?",
+            options: ["A. 8 nhóm A và 8 nhóm B.", "B. 7 nhóm A và 7 nhóm B.", "C. 7 nhóm A và 8 nhóm B.", "D. 8 nhóm A và 7 nhóm B."],
+            correct: 0,
+            explain: "Bảng tuần hoàn gồm 8 nhóm A (IA đến VIIIA) và 8 nhóm B (IB đến VIIIB)."
+          },
+          {
+            id: "B4_NB_7",
+            text: "Dựa vào bảng tuần hoàn, ta xác định được vị trí của chlorine thuộc",
+            options: ["A. chu kỳ 7, nhóm IIIA.", "B. chu kỳ 3, nhóm VIA.", "C. chu kỳ 7, nhóm VIA.", "D. chu kỳ 3, nhóm VIIA."],
+            correct: 3,
+            explain: "Chlorine có Z = 17, cấu hình gồm 3 lớp electron và có 7 electron lớp ngoài cùng, thuộc chu kì 3, nhóm VIIA."
+          },
+          {
+            id: "B4_NB_8",
+            text: "Dãy gồm các nguyên tố đều là kim loại là",
+            options: ["A. K, Na, Mg, Al.", "B. H, N, O, K.", "C. O, Cl, Br, H.", "D. F, O, Na, N."],
+            correct: 0,
+            explain: "K, Na, Mg, Al đều là các nguyên tố kim loại điển hình."
+          },
+          {
+            id: "B4_NB_9",
+            text: "Dãy gồm các nguyên tố đều là phi kim là",
+            options: ["A. F, O, Na, N.", "B. O, Cl, Br, F.", "C. H, N, O, K.", "D. K, Na, Mg, Al."],
+            correct: 1,
+            explain: "O, Cl, Br, F đều là các nguyên tố phi kim."
+          },
+          {
+            id: "B4_NB_10",
+            text: "Dãy nào sau đây gồm các nguyên tố đều là khí hiếm?",
+            options: ["A. Mg, Ca, Sr, Ba.", "B. F, Cl, Br, I.", "C. He, Ne, Ar, Kr.", "D. Li, Na, K, Rb."],
+            correct: 2,
+            explain: "He, Ne, Ar, Kr thuộc nhóm VIIIA là nhóm các nguyên tố khí hiếm (khí trơ)."
+          },
+          {
+            id: "B4_NB_11",
+            text: "Dãy nào sau đây gồm các nguyên tố đều là kim loại kiềm?",
+            options: ["A. Mg, Ca, Sr, Ba.", "B. He, Ne, Ar, Kr.", "C. F, Cl, Br, I.", "D. Li, Na, K, Rb."],
+            correct: 3,
+            explain: "Li, Na, K, Rb thuộc nhóm IA (trừ H) được gọi là nhóm kim loại kiềm."
+          },
+          {
+            id: "B4_NB_12",
+            text: "Dãy nào sau đây gồm các nguyên tố đều là kim loại kiềm thổ?",
+            options: ["A. Mg, Ca, Sr, Ba.", "B. He, Ne, Ar, Kr.", "C. F, Cl, Br, I.", "D. Li, Na, K, Rb."],
+            correct: 0,
+            explain: "Mg, Ca, Sr, Ba thuộc nhóm IIA, là nhóm các kim loại kiềm thổ."
+          },
+          {
+            id: "B4_NB_13",
+            text: "Nguyên tắc nào sau đây không đúng khi sắp xếp các nguyên tố hóa học trong bảng tuần hoàn?",
+            options: [
+              "A. Các nguyên tố được xếp trong cùng một hàng có cùng số lớp electron trong nguyên tử.",
+              "B. Các nguyên tố có khối lượng gần bằng nhau được xếp trong cùng một hàng.",
+              "C. Các nguyên tố hóa học được xếp theo chiều tăng dần của điện tích hạt nhân nguyên tử.",
+              "D. Các nguyên tố trong cùng một cột có tính chất hóa học tương tự nhau."
+            ],
+            correct: 1,
+            explain: "Nguyên tắc xếp hàng (chu kì) là dựa vào 'cùng số lớp electron', không xếp dựa vào khối lượng gần bằng nhau."
+          },
+          {
+            id: "B4_NB_14",
+            text: "Vị trí của nguyên tử nguyên tố X có số hiệu nguyên tử bằng 27 trong bảng tuần hoàn thuộc:",
+            options: ["A. Chu kì 4, nhóm VIIB.", "B. Chu kì 4,nhóm IIA.", "C. Chu kì 4, nhóm VIIIB.", "D. Chu kì 3, nhóm IIB"],
+            correct: 2,
+            explain: "Nguyên tố có Z = 27 là Cobalt (Co), thuộc chu kì 4 và nhóm VIIIB."
+          },
+          {
+            id: "B4_NB_15",
+            text: "Chu kì gồm các nguyên tố mà nguyên tử của chúng có cùng…",
+            options: [
+              "A. số electron lớp ngoài cùng và được xếp thành hàng theo chiều giảm dần của điện tích hạt nhân.",
+              "B. số lớp electron và được xếp thành hàng theo chiều giảm dần của điện tích hạt nhân.",
+              "C. số electron lớp ngoài cùng và được xếp thành hàng theo chiều tăng dần của điện tích hạt nhân.",
+              "D. số lớp electron và được xếp thành hàng theo chiều tăng dần của điện tích hạt nhân."
+            ],
+            correct: 3,
+            explain: "Chu kì là dãy các nguyên tố có cùng số lớp electron, xếp theo chiều tăng dần của điện tích hạt nhân."
+          },
+          {
+            id: "B4_NB_16",
+            text: "Số thứ tự của chu kì bằng…",
+            options: [
+              "A. Số lớp electron trong nguyên tử của các nguyên tố trong chu kì đó.",
+              "B. Số proton trong nguyên tử của các nguyên tố trong chu kì đó.",
+              "C. Số electron trong nguyên tử của các nguyên tố trong chu kì đó.",
+              "D. Số electron ở lớp ngoài cùng trong nguyên tử của các nguyên tố trong chu kì đó."
+            ],
+            correct: 0,
+            explain: "Số thứ tự của chu kì luôn bằng số lớp electron trong nguyên tử."
+          },
+          {
+            id: "B4_NB_17",
+            text: "Dãy nào sau đây gồm các nguyên tố đều là phi kim?",
+            options: ["A. O, N, C, Br.", "B. Ca, N, Br, H.", "C. F, O, Ca, C.", "D. K, F, Ca, Mg."],
+            correct: 0,
+            explain: "O, N, C, Br đều là phi kim. Các đáp án khác chứa kim loại như Ca, K, Mg."
+          },
+          {
+            id: "B4_NB_18",
+            text: "Nguyên tố hóa học có kí hiệu hóa học Na là",
+            options: ["A. nitrogen", "B. sodium.", "C. neon.", "D. calcium."],
+            correct: 1,
+            explain: "Na là kí hiệu của Sodium."
+          },
+          {
+            id: "B4_NB_19",
+            text: "Nguyên tố hóa học có kí hiệu hóa học Cl là",
+            options: ["A. carbon.", "B. copper.", "C. chlorine.", "D. calcium."],
+            correct: 2,
+            explain: "Cl là kí hiệu của Chlorine."
+          },
+          {
+            id: "B4_NB_20",
+            text: "Silicon có kí hiệu hóa học là",
+            options: ["A. S.", "B. Sn.", "C. Sb.", "D. Si."],
+            correct: 3,
+            explain: "Silicon kí hiệu là Si."
+          },
+          // BÀI 4 - THÔNG HIỂU
+          {
+            id: "B4_TH_1",
+            text: "Biết vị trí nguyên tử X như sau: có 3 lớp electron, lớp ngoài cùng có 5 electron. Dựa vào bảng tuần hoàn thì nguyên tố X là",
+            options: ["A. Photphorus.", "B. Nitrogen.", "C. Chlorine.", "D. Sulfur."],
+            correct: 0,
+            explain: "3 lớp electron => chu kì 3; 5e ngoài cùng => nhóm VA. Nguyên tố ở chu kì 3, nhóm VA là Phosphorus (Z=15)."
+          },
+          {
+            id: "B4_TH_2",
+            text: "Tính chất của nguyên tố bromine gần giống với tính chất của nguyên tố nào trong các nguyên tố sau đây?",
+            options: ["A. Photphorus.", "B. Chlorine.", "C. Nitrogen.", "D. Sulfur."],
+            correct: 1,
+            explain: "Bromine và Chlorine cùng thuộc nhóm halogen (nhóm VIIA) nên có tính chất hóa học rất tương tự nhau."
+          },
+          {
+            id: "B4_TH_3",
+            text: "Một nguyên tố Y đứng liền trước nguyên tố X trong cùng một chu kì của bảng tuần hoàn. Y đứng liền trên Z trong cùng một nhóm A. Phát biểu nào sau đây là đúng?",
+            options: [
+              "A. Bán kính nguyên tử theo thứ tự tang dần là Z < Y < X.",
+              "B. Hóa trị cao nhất trong hợp chất với oxi tang dần theo thứ tự: Z < Y < X.",
+              "C. Điện tích hạt nhân tăng dần theo thứ tự Y > X > Z",
+              "D. Số hiệu nguyên tử theo thứ tự tăng dần là X < Y < Z."
+            ],
+            correct: 1,
+            explain: "Vì Y và Z cùng nhóm A nên có cùng hóa trị cao nhất với oxygen; X đứng sau Y trong cùng chu kì nên hóa trị cao hơn Y. (Theo logic quy luật tuần hoàn)."
+          },
+          {
+            id: "B4_TH_4",
+            text: "Hai nguyên tố X và Y cùng thuộc một chu kì và ở hai nhóm A kế tiếp nhau có tổng số proton trong hai hạt nhân nguyên tử là 25. X và Y thuộc chu kì và nhóm nào sau đây trong bảng tuần hoàn?",
+            options: [
+              "A. Chu kì 2 và các nhóm IIA, IIIA.",
+              "B. Chu kì 3 và các nhóm IA, IIA.",
+              "C. Chu kì 2 và các nhóm IA, IIA.",
+              "D. Chu kì 3 và các nhóm IIA, IIIA."
+            ],
+            correct: 3,
+            explain: "Hai nhóm kế tiếp trong cùng chu kì nên Z_Y - Z_X = 1. Ta có Z_X + Z_Y = 25 => Z_X = 12 (Mg) và Z_Y = 13 (Al). Mg ở chu kì 3 nhóm IIA; Al ở chu kì 3 nhóm IIIA."
+          },
+          {
+            id: "B4_TH_5",
+            text: "Dãy nguyên tố nào sau đây được xếp theo chiều giảm dần của tính kim loại?",
+            options: ["A. Na, Mg, Al, Zn.", "B. O, S, Se, Te.", "C. Li, Na, K, Pb.", "D. F, Cl, Br, I."],
+            correct: 0,
+            explain: "Trong cùng chu kì 3, theo chiều tăng điện tích hạt nhân, tính kim loại giảm dần: Na > Mg > Al, sau đó đến kim loại chuyển tiếp Zn."
+          },
+          {
+            id: "B4_TH_6",
+            text: "Nguyên tắc sắp xếp các nguyên tố vào bảng tuần hoàn:\na) Các nguyên tố được sắp xếp theo chiều tăng dần của điện tích hạt nhân nguyên tử ;\nb) Các nguyên tố có cùng số lớp electron trong nguyên tử được xếp vào cùng một hàng ;\nc) Các nguyên tố có cùng số electron hóa trị được xếp vào một cột ;\nd) Số thứ tự của ô nguyên tố bằng số hiệu của nguyên tố đó.\nSố nguyên tắc đúng là:",
+            options: ["A. 2", "B. 3", "C. 1", "D. 4"],
+            correct: 3,
+            explain: "Cả 4 nguyên tắc a, b, c, d đều hoàn toàn chính xác theo nguyên tắc cấu tạo của bảng tuần hoàn."
+          },
+          {
+            id: "B4_TH_7",
+            text: "Các nguyên tố xếp ở chu kỳ 5 có số lớp electron trong nguyên tử là",
+            options: ["A. 4", "B. 3", "C. 5", "D. 6"],
+            correct: 2,
+            explain: "Số thứ tự chu kì luôn bằng số lớp electron. Do đó chu kì 5 có 5 lớp electron."
+          },
+          {
+            id: "B4_TH_8",
+            text: "Dãy 4 nguyên tố thuộc nhóm khí trơ là",
+            options: ["A. Ne, K, Xe, Ar.", "B. Ne, Kr, Sn, Ar.", "C. Ne, Kr, Xe, Ag.", "D. Ne, Ar, Kr, Xe."],
+            correct: 3,
+            explain: "Ne (Neon), Ar (Argon), Kr (Krypton), Xe (Xenon) đều là các khí hiếm thuộc nhóm VIIIA."
+          },
+          {
+            id: "B4_TH_9",
+            text: "Số chu kì có 8 nguyên tố trong bảng tuần hoàn là",
+            options: ["A. Chu kì 2, 3.", "B. Chu kì 3, 4.", "C. Chu kì 1, 3.", "D. Chu kì 1, 4."],
+            correct: 0,
+            explain: "Chu kì 1 có 2 nguyên tố; chu kì 2 và chu kì 3 mỗi chu kì có 8 nguyên tố."
+          },
+          {
+            id: "B4_TH_10",
+            text: "Trong một chu kì, khi đi từ trái sang phải theo chiều tăng dần của điện tích hạt nhân:",
+            options: [
+              "A. Mở đầu chu kì là một phi kim điển hình (trừ chu kì 7), cuối chu kì là một kim loại điển hình (trừ chu kì 1) và kết thúc chu kì là một khí hiếm.",
+              "B. Mở đầu chu kì là một kim loại điển hình (trừ chu kì 1), cuối chu kì là một phi kim điển hình (trừ chu kì 7) và kết thúc chu kì là một khí hiếm.",
+              "C. Mở đầu chu kì là một phi kim điển hình (trừ chu kì 7), cuối chu kì là một khí hiếm và kết thúc chu kì là một kim loại điển hình (trừ chu kì 1).",
+              "D. Mở đầu chu kì là một kim loại điển hình (trừ chu kì 1), cuối chu kì là một khí hiếm và kết thúc chu kì là một phi kim điển hình (trừ chu kì 7)."
+            ],
+            correct: 1,
+            explain: "Quy luật mỗi chu kì: bắt đầu là kim loại kiềm (trừ chu kì 1 bắt đầu bằng H), cuối chu kì là phi kim điển hình (halogen) và kết thúc bằng một khí hiếm."
+          },
+          {
+            id: "B4_TH_11",
+            text: "Nguyên tố Oxygen có cùng số lớp electron với nguyên tố nào sau đây?",
+            options: ["A. Chlorine.", "B. Bromine.", "C. Fluorine.", "D. Iodine."],
+            correct: 2,
+            explain: "Oxygen và Fluorine đều thuộc Chu kì 2 nên có cùng 2 lớp electron trong nguyên tử."
+          },
+          {
+            id: "B4_TH_12",
+            text: "Nguyên tố Mg có cùng số electron lớp ngoài cùng với nguyên tố nào sau đây?",
+            options: ["A. Nitrogen.", "B. Selenium.", "C. Potassium.", "D. Calcium."],
+            correct: 3,
+            explain: "Mg và Calcium (Ca) đều thuộc nhóm IIA nên đều có cùng 2 electron ở lớp ngoài cùng."
+          }
+        ]
+      },
+      tf: {
+        id: "tf",
+        title: "2. Phần Đúng / Sai",
+        desc: "2 câu lớn với 8 nhận định chi tiết kiểm tra sâu kiến thức hạt nhân và bảng tuần hoàn",
+        questions: [
+          {
+            id: "TF_1",
+            context: "Câu 1: Cho các phát biểu về nguyên tử và nguyên tố hóa học:",
+            items: [
+              {
+                id: "TF_1_a",
+                text: "a) Nguyên tử cấu tạo gồm hạt nhân ở trung tâm (gồm proton và neutron) và vỏ hạt nhân chứa các electron.",
+                correct: true,
+                explain: "Đúng theo mô hình cấu tạo nguyên tử chuẩn: hạt nhân gồm p và n, vỏ chứa electron."
+              },
+              {
+                id: "TF_1_b",
+                text: "b) Hạt proton mang điện tích dương, hạt electron mang điện tích âm, còn hạt neutron không mang điện.",
+                correct: true,
+                explain: "Đúng về tính chất điện tích của 3 loại hạt hạ nguyên tử cơ bản."
+              },
+              {
+                id: "TF_1_c",
+                text: "c) Số proton trong hạt nhân luôn bằng số neutron trong bất kỳ loại nguyên tử nào.",
+                correct: false,
+                explain: "Sai. Trong nhiều nguyên tử số proton khác số neutron (ví dụ nguyên tử H thường có 1 proton nhưng không có neutron; nguyên tử Cl có 17 proton và 18 neutron)."
+              },
+              {
+                id: "TF_1_d",
+                text: "d) Nguyên tố hóa học là tập hợp những nguyên tử cùng loại có cùng số proton trong hạt nhân.",
+                correct: true,
+                explain: "Đúng theo định nghĩa chuẩn của nguyên tố hóa học."
+              }
+            ]
+          },
+          {
+            id: "TF_2",
+            context: "Câu 2: Cho các phát biểu về Sơ lược bảng tuần hoàn các nguyên tố hóa học:",
+            items: [
+              {
+                id: "TF_2_a",
+                text: "a) Các nguyên tố hóa học trong bảng tuần hoàn được sắp xếp theo chiều tăng dần của điện tích hạt nhân.",
+                correct: true,
+                explain: "Đúng, đây là nguyên tắc sắp xếp hàng đầu của bảng tuần hoàn hiện đại."
+              },
+              {
+                id: "TF_2_b",
+                text: "b) Ô nguyên tố trong bảng tuần hoàn cung cấp thông tin về số hiệu nguyên tử, kí hiệu hóa học, tên nguyên tố và khối lượng nguyên tử.",
+                correct: true,
+                explain: "Đúng, mỗi ô nguyên tố thông thường cung cấp đủ 4 thông số cơ bản này."
+              },
+              {
+                id: "TF_2_c",
+                text: "c) Chu kì là tập hợp các nguyên tố mà nguyên tử của chúng có cùng số lớp electron, được xếp theo hàng ngang.",
+                correct: true,
+                explain: "Đúng, chu kì là hàng ngang chứa các nguyên tử có cùng số lớp electron."
+              },
+              {
+                id: "TF_2_d",
+                text: "d) Nhóm gồm các nguyên tố hóa học có tính chất hóa học tương tự nhau, được xếp theo hàng ngang.",
+                correct: false,
+                explain: "Sai. Các nguyên tố trong cùng một nhóm được sắp xếp theo CỘT DỌC, không phải hàng ngang."
+              }
+            ]
+          }
+        ]
+      },
+      essay: {
+        id: "essay",
+        title: "3. Tự luận và Trả lời ngắn",
+        desc: "2 bài tập tự luận tra cứu số liệu hạt và thông tin ô nguyên tố kèm bộ tiêu chí tự đối chiếu",
+        questions: [
+          {
+            id: "ESSAY_1",
+            title: "Bài 1. Tra cứu và tính toán số hạt nguyên tử",
+            content: `Cho bảng số liệu:<br>
+            <div style="overflow-x:auto; margin: 0.5rem 0;">
+              <table class="tf-table" style="font-size:0.85rem;">
+                <tr><th>Kí hiệu</th><td>F</td><td>Ne</td><td>Na</td><td>S</td><td>Cl</td><td>Ar</td><td>K</td><td>K</td><td>Ca</td></tr>
+                <tr><th>Khối lượng (amu)</th><td>19</td><td>22</td><td>23</td><td>32</td><td>35</td><td>39</td><td>39</td><td>40</td><td>40</td></tr>
+                <tr><th>Số hiệu Z</th><td>9</td><td>10</td><td>11</td><td>16</td><td>17</td><td>18</td><td>19</td><td>19</td><td>20</td></tr>
+              </table>
+            </div>
+            Hãy trả lời các ý sau:<br>
+            a) Hạt nhân nguyên tử Na có bao nhiêu hạt proton?<br>
+            b) Nguyên tử S có bao nhiêu electron?<br>
+            c) Hạt nhân nguyên tử Cl có bao nhiêu hạt neutron?`,
+            modelAnswer: `a) Hạt nhân nguyên tử Na có 11 hạt proton (vì số hiệu Z = 11).\nb) Nguyên tử S có 16 electron (vì trong nguyên tử trung hòa điện: số electron = số proton = Z = 16).\nc) Hạt nhân nguyên tử Cl có 18 hạt neutron (Khối lượng nguyên tử ≈ số p + số n => số n = Khối lượng - Z = 35 - 17 = 18 hạt).`,
+            checklist: [
+              "Chỉ ra số proton của Na là 11 dựa vào số hiệu nguyên tử Z = 11.",
+              "Xác định nguyên tử trung hòa điện nên số electron của S = số proton = 16.",
+              "Nêu được công thức tính số hạt neutron: n = Khối lượng nguyên tử - Z (hoặc A - Z).",
+              "Thực hiện đúng phép trừ: 35 - 17 = 18 hạt neutron cho Cl."
+            ],
+            notes: "Học sinh hay quên nêu căn cứ (Z = p = e) mà chỉ ghi độc mỗi con số. Cần lưu ý trừ đúng khối lượng nguyên tử cho số proton."
+          },
+          {
+            id: "ESSAY_2",
+            title: "Bài 2. Đọc thông tin ô nguyên tố hóa học",
+            content: `Quan sát ô nguyên tố Na trong tài liệu ôn tập. Nêu các thông tin sau:<br>
+            - Tên nguyên tố?<br>
+            - Số hiệu nguyên tử?<br>
+            - Khối lượng nguyên tử?<br>
+            - Kí hiệu hóa học?<br>
+            <em>(Lưu ý: Quan sát trực quan trên ô nguyên tố Sodium)</em>`,
+            modelAnswer: `- Tên nguyên tố: Sodium (Natri)\n- Số hiệu nguyên tử: 11 (Trong hình minh họa tài liệu số dưới in 23, chuẩn kiến thức số hiệu là 11)\n- Khối lượng nguyên tử: 23 amu\n- Kí hiệu hóa học: Na`,
+            checklist: [
+              "Ghi đúng tên nguyên tố: Sodium.",
+              "Ghi đúng kí hiệu hóa học: Na (chữ N in hoa, chữ a thường).",
+              "Chỉ ra khối lượng nguyên tử là 23 (hoặc 23 amu).",
+              "Nêu được số hiệu nguyên tử là 11 (hoặc ghi chú nhận xét số dưới trong hình tài liệu in 23)."
+            ],
+            notes: "Trong tài liệu in gốc, ô nguyên tố in số 23 ở cả trên và dưới. Học sinh chỉ ra được số hiệu chuẩn là 11 được khuyến khích điểm tối đa."
+          }
+        ]
+      }
+    }
+  }
+};
+
+/* ==================== TRẠNG THÁI VÀ BỘ NHỚ LÀM BÀI ==================== */
+let currentGrade = "grade7";
+let currentSectionKey = "mcq";
+let currentPaging = "all"; // '1', '5', '10', 'all'
+let currentPage = 1;
+let currentShuffledQuestions = []; // Lưu danh sách đã trộn cho phiên
+let userAnswers = {}; // { qId: answerValue }
+let quizSubmitted = false;
+let isTeacherUnlocked = false;
+
+// Đọc trạng thái từ localStorage
+function loadSavedSession() {
+  try {
+    const saved = localStorage.getItem(`QUIZ_SAVE_${currentGrade}_${currentSectionKey}`);
+    if (saved) {
+      const data = JSON.parse(saved);
+      if (data.version === DB_VERSION) {
+        userAnswers = data.answers || {};
+        currentShuffledQuestions = data.shuffledQuestions || [];
+        quizSubmitted = data.submitted || false;
+        currentPaging = data.paging || "all";
+      }
+    }
+  } catch (e) {
+    console.error("Lỗi nạp bộ nhớ:", e);
+  }
+}
+
+function saveCurrentSession() {
+  try {
+    const payload = {
+      version: DB_VERSION,
+      answers: userAnswers,
+      shuffledQuestions: currentShuffledQuestions,
+      submitted: quizSubmitted,
+      paging: currentPaging
+    };
+    localStorage.setItem(`QUIZ_SAVE_${currentGrade}_${currentSectionKey}`, JSON.stringify(payload));
+  } catch (e) {
+    console.error("Lỗi lưu bài:", e);
+  }
+}
+
+/* ==================== ĐIỀU HƯỚNG GIAO DIỆN ==================== */
+function goToHome() {
+  document.getElementById("view-home").style.display = "block";
+  document.getElementById("view-sections").style.display = "none";
+  document.getElementById("view-quiz").style.display = "none";
+  document.getElementById("view-teacher").style.display = "none";
+  renderHomeCards();
+}
+
+function selectGrade(gradeKey) {
+  currentGrade = gradeKey;
+  document.getElementById("view-home").style.display = "none";
+  document.getElementById("view-sections").style.display = "block";
+  document.getElementById("view-quiz").style.display = "none";
+  renderSectionsList();
+}
+
+function backToSections() {
+  document.getElementById("view-home").style.display = "none";
+  document.getElementById("view-sections").style.display = "block";
+  document.getElementById("view-quiz").style.display = "none";
+  renderSectionsList();
+}
+
+function renderHomeCards() {
+  const container = document.getElementById("grade-cards");
+  container.innerHTML = "";
+  Object.keys(QUIZ_DATA).forEach(key => {
+    const g = QUIZ_DATA[key];
+    const card = document.createElement("div");
+    card.className = "card";
+    card.style.cursor = "pointer";
+    card.onclick = () => selectGrade(key);
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <h3 style="color:var(--primary); font-size:1.15rem;">${g.title}</h3>
+        <span class="badge badge-primary">Sẵn sàng</span>
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">
+        Gồm 70 câu Trắc nghiệm, 2 bài Đúng/Sai (8 ý) và 2 bài Tự luận đối chiếu theo sát đề cương.
+      </p>
+      <button class="btn btn-primary btn-sm" style="width:100%;">Vào ôn tập ngay →</button>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function renderSectionsList() {
+  const g = QUIZ_DATA[currentGrade];
+  document.getElementById("section-grade-title").textContent = `Ôn tập: ${g.title}`;
+  const list = document.getElementById("sections-list");
+  list.innerHTML = "";
+
+  Object.keys(g.sections).forEach(secKey => {
+    const sec = g.sections[secKey];
+    // Kiểm tra trạng thái đã có trong local storage
+    const savedStr = localStorage.getItem(`QUIZ_SAVE_${currentGrade}_${secKey}`);
+    let statusBadge = `<span class="badge" style="background:#f1f5f9; color:#475569;">Chưa làm</span>`;
+    let hasDraft = false;
+    let hasSubmitted = false;
+
+    if (savedStr) {
+      try {
+        const saved = JSON.parse(savedStr);
+        if (saved.version === DB_VERSION) {
+          if (saved.submitted) {
+            hasSubmitted = true;
+            statusBadge = `<span class="badge" style="background:var(--success-bg); color:var(--success);">Đã nộp bài</span>`;
+          } else if (saved.answers && Object.keys(saved.answers).length > 0) {
+            hasDraft = true;
+            statusBadge = `<span class="badge" style="background:var(--warning-bg); color:var(--warning);">Đang làm dở</span>`;
+          }
+        }
+      } catch(e){}
+    }
+
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.5rem;">
+        <h4 style="font-size:1.05rem;">${sec.title}</h4>
+        ${statusBadge}
+      </div>
+      <p style="font-size:0.85rem; color:var(--text-muted); margin-bottom:1rem;">${sec.desc}</p>
+      <div style="display:flex; gap:0.4rem; flex-wrap:wrap;">
+        <button class="btn btn-primary btn-sm" onclick="startQuiz('${secKey}', 'new')">Luyện lượt mới</button>
+        ${hasDraft ? `<button class="btn btn-outline btn-sm" style="color:var(--primary); border-color:var(--primary);" onclick="startQuiz('${secKey}', 'continue')">Tiếp tục làm</button>` : ''}
+        ${hasSubmitted ? `<button class="btn btn-outline btn-sm" style="color:var(--success); border-color:var(--success);" onclick="startQuiz('${secKey}', 'review')">Xem kết quả</button>` : ''}
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+/* ==================== QUẢN LÝ LÀM BÀI VÀ TRỘN CÂU HỎI ==================== */
+function shuffleArray(array) {
+  const arr = [...array];
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+}
+
+function startQuiz(secKey, mode) {
+  currentSectionKey = secKey;
+  currentPage = 1;
+
+  if (mode === 'new') {
+    userAnswers = {};
+    quizSubmitted = false;
+    const rawQuestions = QUIZ_DATA[currentGrade].sections[secKey].questions;
+    // Trộn câu hỏi độc lập, giữ nguyên cấu trúc đáp án A-D bên trong mỗi câu
+    currentShuffledQuestions = shuffleArray(rawQuestions);
+    saveCurrentSession();
+  } else {
+    loadSavedSession();
+    if (!currentShuffledQuestions || currentShuffledQuestions.length === 0) {
+      currentShuffledQuestions = shuffleArray(QUIZ_DATA[currentGrade].sections[secKey].questions);
+      saveCurrentSession();
+    }
+  }
+
+  document.getElementById("view-sections").style.display = "none";
+  document.getElementById("view-quiz").style.display = "block";
+  document.getElementById("select-paging").value = currentPaging;
+  document.getElementById("quiz-title-badge").textContent = QUIZ_DATA[currentGrade].sections[secKey].title;
+
+  renderQuiz();
+}
+
+function changePaging(val) {
+  currentPaging = val;
+  currentPage = 1;
+  saveCurrentSession();
+  renderQuiz();
+}
+
+function navPage(direction) {
+  currentPage += direction;
+  renderQuiz();
+}
+
+function updateProgressDisplay() {
+  const total = currentShuffledQuestions.length;
+  let answered = 0;
+  if (currentSectionKey === 'mcq') {
+    answered = Object.keys(userAnswers).filter(k => userAnswers[k] !== undefined).length;
+  } else if (currentSectionKey === 'tf') {
+    let count = 0;
+    currentShuffledQuestions.forEach(q => {
+      q.items.forEach(it => {
+        if (userAnswers[it.id] !== undefined) count++;
+      });
+    });
+    answered = count;
+    const totalItems = currentShuffledQuestions.reduce((acc, q) => acc + q.items.length, 0);
+    document.getElementById("quiz-progress").textContent = `Đã trả lời: ${answered}/${totalItems} nhận định`;
+    return;
+  } else {
+    answered = Object.keys(userAnswers).filter(k => (userAnswers[k] || '').trim().length > 0).length;
+  }
+  document.getElementById("quiz-progress").textContent = `Đã trả lời: ${answered}/${total} câu`;
+}
+
+function renderNavButtons() {
+  const container = document.getElementById("quiz-nav-grid");
+  container.innerHTML = "";
+
+  currentShuffledQuestions.forEach((q, idx) => {
+    const btn = document.createElement("button");
+    btn.className = "q-btn";
+    btn.textContent = idx + 1;
+    btn.onclick = () => {
+      if (currentPaging !== "all") {
+        const pageSize = parseInt(currentPaging, 10);
+        currentPage = Math.floor(idx / pageSize) + 1;
+        renderQuiz();
+      }
+      setTimeout(() => {
+        const el = document.getElementById(`q_block_${q.id}`);
+        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 50);
+    };
+
+    // Đánh giá trạng thái
+    if (currentSectionKey === 'mcq') {
+      const ans = userAnswers[q.id];
+      if (ans !== undefined) {
+        if (quizSubmitted) {
+          btn.classList.add(ans === q.correct ? "correct" : "wrong");
+        } else {
+          btn.classList.add("done");
+        }
+      }
+    } else if (currentSectionKey === 'tf') {
+      const allDone = q.items.every(it => userAnswers[it.id] !== undefined);
+      if (allDone) btn.classList.add("done");
+    } else {
+      if ((userAnswers[q.id] || '').trim().length > 0) {
+        btn.classList.add("done");
+      }
+    }
+    container.appendChild(btn);
+  });
+}
+
+function renderQuiz() {
+  updateProgressDisplay();
+  renderNavButtons();
+
+  const container = document.getElementById("questions-container");
+  container.innerHTML = "";
+
+  const total = currentShuffledQuestions.length;
+  let startIndex = 0;
+  let endIndex = total;
+
+  if (currentPaging !== "all") {
+    const pageSize = parseInt(currentPaging, 10);
+    const maxPages = Math.ceil(total / pageSize);
+    if (currentPage > maxPages) currentPage = maxPages;
+    if (currentPage < 1) currentPage = 1;
+
+    startIndex = (currentPage - 1) * pageSize;
+    endIndex = Math.min(startIndex + pageSize, total);
+
+    document.getElementById("btn-prev").style.visibility = (currentPage > 1) ? "visible" : "hidden";
+    document.getElementById("btn-next").style.visibility = (currentPage < maxPages) ? "visible" : "hidden";
+  } else {
+    document.getElementById("btn-prev").style.visibility = "hidden";
+    document.getElementById("btn-next").style.visibility = "hidden";
+  }
+
+  const slice = currentShuffledQuestions.slice(startIndex, endIndex);
+
+  slice.forEach((q, sliceIdx) => {
+    const realIdx = startIndex + sliceIdx + 1;
+    const qDiv = document.createElement("div");
+    qDiv.className = "q-item";
+    qDiv.id = `q_block_${q.id}`;
+
+    if (currentSectionKey === 'mcq') {
+      renderMcqItem(qDiv, q, realIdx);
+    } else if (currentSectionKey === 'tf') {
+      renderTfItem(qDiv, q, realIdx);
+    } else {
+      renderEssayItem(qDiv, q, realIdx);
+    }
+
+    container.appendChild(qDiv);
+  });
+
+  const submitBtn = document.getElementById("btn-submit");
+  if (quizSubmitted) {
+    submitBtn.textContent = "Làm lại phần này";
+    submitBtn.onclick = () => resetCurrentQuiz();
+  } else {
+    submitBtn.textContent = "Nộp bài kiểm tra";
+    submitBtn.onclick = () => confirmSubmitQuiz();
+  }
+}
+
+/* ==================== PHẦN TRẮC NGHIỆM ==================== */
+function renderMcqItem(container, q, index) {
+  const userChoice = userAnswers[q.id];
+  const isChecked = quizSubmitted || userAnswers[`checked_${q.id}`];
+
+  let optionsHtml = q.options.map((opt, optIdx) => {
+    let classes = ["option-label"];
+    if (userChoice === optIdx) classes.push("selected");
+    if (isChecked) {
+      if (optIdx === q.correct) classes.push("ans-correct");
+      else if (userChoice === optIdx && userChoice !== q.correct) classes.push("ans-wrong");
+    }
+
+    return `
+      <label class="${classes.join(' ')}" onclick="selectMcqOption('${q.id}', ${optIdx})">
+        <input type="radio" name="mcq_${q.id}" ${userChoice === optIdx ? 'checked' : ''} ${isChecked ? 'disabled' : ''}>
+        <span>${opt}</span>
+      </label>
+    `;
+  }).join("");
+
+  let feedbackHtml = "";
+  if (isChecked) {
+    const isRight = userChoice === q.correct;
+    feedbackHtml = `
+      <div class="explanation-box" style="border-left-color: ${isRight ? 'var(--success)' : 'var(--danger)'}">
+        <strong>${isRight ? '✓ Làm rất tốt!' : '✕ Cần xem lại câu này!'}</strong>
+        <p style="margin-top:0.25rem;"><strong>Đáp án đúng:</strong> ${q.options[q.correct]}</p>
+        <p style="margin-top:0.25rem;"><strong>Giải thích cụ thể:</strong> ${q.explain}</p>
+        ${!quizSubmitted ? `<button class="btn btn-outline btn-sm" style="margin-top:0.5rem; color:var(--primary);" onclick="retryMcqQuestion('${q.id}')">Thử lại câu này</button>` : ''}
+      </div>
+    `;
+  }
+
+  container.innerHTML = `
+    <div class="q-title">Câu ${index}: ${q.text}</div>
+    <div class="options">${optionsHtml}</div>
+    ${!isChecked && !quizSubmitted ? `
+      <button class="btn btn-outline btn-sm" style="margin-top:0.6rem; color:var(--primary); border-color:#cbd5e1;" onclick="checkSingleMcq('${q.id}')">Kiểm tra câu này</button>
+    ` : ''}
+    ${feedbackHtml}
+  `;
+}
+
+function selectMcqOption(qId, optIdx) {
+  if (quizSubmitted || userAnswers[`checked_${qId}`]) return;
+  userAnswers[qId] = optIdx;
+  saveCurrentSession();
+  renderQuiz();
+}
+
+function checkSingleMcq(qId) {
+  if (userAnswers[qId] === undefined) {
+    alert("Vui lòng chọn một phương án trước khi kiểm tra!");
+    return;
+  }
+  userAnswers[`checked_${qId}`] = true;
+  saveCurrentSession();
+  renderQuiz();
+}
+
+function retryMcqQuestion(qId) {
+  delete userAnswers[qId];
+  delete userAnswers[`checked_${qId}`];
+  saveCurrentSession();
+  renderQuiz();
+}
+
+/* ==================== PHẦN ĐÚNG / SAI ==================== */
+function renderTfItem(container, q, index) {
+  const isChecked = quizSubmitted || userAnswers[`checked_${q.id}`];
+
+  let rowsHtml = q.items.map((it, itIdx) => {
+    const userVal = userAnswers[it.id];
+    let rowStatus = "";
+    if (isChecked && userVal !== undefined) {
+      rowStatus = (userVal === it.correct) 
+        ? `<span style="color:var(--success); font-weight:bold;">✓ Đúng</span>`
+        : `<span style="color:var(--danger); font-weight:bold;">✕ Chưa đúng</span>`;
+    }
+
+    return `
+      <tr>
+        <td style="font-size:0.95rem;">
+          ${it.text}
+          ${isChecked ? `
+            <div style="font-size:0.85rem; margin-top:0.35rem; color:#475569; background:#f8fafc; padding:0.4rem; border-radius:6px;">
+              <strong>Đáp án chuẩn:</strong> ${it.correct ? 'ĐÚNG' : 'SAI'}. ${it.explain}
+            </div>` : ''}
+        </td>
+        <td style="text-align:center; width:90px;">
+          <input type="radio" name="tf_${it.id}" value="true" ${userVal === true ? 'checked' : ''} ${isChecked ? 'disabled' : ''} onchange="selectTfOption('${it.id}', true)"> Đúng
+        </td>
+        <td style="text-align:center; width:90px;">
+          <input type="radio" name="tf_${it.id}" value="false" ${userVal === false ? 'checked' : ''} ${isChecked ? 'disabled' : ''} onchange="selectTfOption('${it.id}', false)"> Sai
+        </td>
+        ${isChecked ? `<td style="text-align:center; width:90px;">${rowStatus}</td>` : ''}
+      </tr>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="q-title">${q.context}</div>
+    <table class="tf-table">
+      <thead>
+        <tr>
+          <th>Nhận định</th>
+          <th style="text-align:center;">Đúng</th>
+          <th style="text-align:center;">Sai</th>
+          ${isChecked ? `<th style="text-align:center;">Kết quả</th>` : ''}
+        </tr>
+      </thead>
+      <tbody>${rowsHtml}</tbody>
+    </table>
+    ${!isChecked && !quizSubmitted ? `
+      <button class="btn btn-outline btn-sm" style="margin-top:0.6rem; color:var(--primary); border-color:#cbd5e1;" onclick="checkSingleTf('${q.id}')">Kiểm tra câu này</button>
+    ` : ''}
+  `;
+}
+
+function selectTfOption(itemId, val) {
+  userAnswers[itemId] = val;
+  saveCurrentSession();
+  updateProgressDisplay();
+  renderNavButtons();
+}
+
+function checkSingleTf(qId) {
+  userAnswers[`checked_${qId}`] = true;
+  saveCurrentSession();
+  renderQuiz();
+}
+
+/* ==================== PHẦN TỰ LUẬN VÀ TRẢ LỜI NGẮN ==================== */
+function renderEssayItem(container, q, index) {
+  const userText = userAnswers[q.id] || "";
+  const isCompared = userAnswers[`compared_${q.id}`];
+  const selfEval = userAnswers[`eval_${q.id}`];
+
+  let checklistHtml = q.checklist.map((item, idx) => {
+    const isChecked = (userAnswers[`check_${q.id}_${idx}`] === true);
+    return `
+      <label class="checklist-item">
+        <input type="checkbox" ${isChecked ? 'checked' : ''} onchange="toggleChecklistItem('${q.id}', ${idx}, this.checked)">
+        <span>${item}</span>
+      </label>
+    `;
+  }).join("");
+
+  container.innerHTML = `
+    <div class="q-title">Bài ${index}: ${q.title}</div>
+    <div style="font-size:0.95rem; margin-bottom:0.75rem;">${q.content}</div>
+    <textarea class="text-box" placeholder="Học sinh tự gõ câu trả lời/các bước giải tại đây trước khi bấm đối chiếu..." oninput="saveEssayText('${q.id}', this.value)">${userText}</textarea>
+    
+    <div style="margin-top:0.6rem; display:flex; gap:0.5rem; flex-wrap:wrap;">
+      <button class="btn btn-outline btn-sm" style="color:var(--primary); border-color:var(--primary);" onclick="toggleCompareEssay('${q.id}')">
+        ${isCompared ? 'Ẩn đáp án đối chiếu' : 'Đối chiếu câu trả lời'}
+      </button>
+    </div>
+
+    ${isCompared ? `
+      <div class="explanation-box" style="margin-top:0.75rem; border-left-color: var(--primary);">
+        <h4 style="color:var(--primary-dark); margin-bottom:0.4rem;">Hướng dẫn giải và Đáp án chuẩn:</h4>
+        <div style="white-space: pre-line; background:white; padding:0.6rem; border-radius:6px; border:1px solid #e2e8f0; font-size:0.9rem;">${q.modelAnswer}</div>
+        
+        <h4 style="margin-top:0.75rem; margin-bottom:0.4rem;">Các ý cần có (Tự tích vào các ý em đã nêu được):</h4>
+        <div style="background:white; padding:0.6rem; border-radius:6px; border:1px solid #e2e8f0;">${checklistHtml}</div>
+        
+        <div style="margin-top:0.5rem;">
+          <button class="btn btn-outline btn-sm" onclick="showMissingChecklist('${q.id}')">Xem ý cần bổ sung</button>
+          <div id="missing_box_${q.id}" style="margin-top:0.4rem; font-size:0.85rem; color:#b91c1c;"></div>
+        </div>
+
+        <div style="margin-top:0.75rem;">
+          <strong>Lưu ý dễ nhầm:</strong> ${q.notes}
+        </div>
+
+        <div style="margin-top:0.75rem; display:flex; align-items:center; gap:0.5rem; flex-wrap:wrap;">
+          <strong style="font-size:0.85rem;">Tự đánh giá mức độ hiểu:</strong>
+          <button class="btn btn-sm ${selfEval === 'can_luyen' ? 'btn-primary' : 'btn-outline'}" onclick="saveEssayEval('${q.id}', 'can_luyen')">Cần luyện thêm</button>
+          <button class="btn btn-sm ${selfEval === 'hieu_mot_phan' ? 'btn-primary' : 'btn-outline'}" onclick="saveEssayEval('${q.id}', 'hieu_mot_phan')">Đã hiểu một phần</button>
+          <button class="btn btn-sm ${selfEval === 'nam_chac' ? 'btn-primary' : 'btn-outline'}" onclick="saveEssayEval('${q.id}', 'nam_chac')">Đã nắm được</button>
+        </div>
+      </div>
+    ` : ''}
+  `;
+}
+
+function saveEssayText(qId, val) {
+  userAnswers[qId] = val;
+  saveCurrentSession();
+  updateProgressDisplay();
+  renderNavButtons();
+}
+
+function toggleCompareEssay(qId) {
+  userAnswers[`compared_${qId}`] = !userAnswers[`compared_${qId}`];
+  saveCurrentSession();
+  renderQuiz();
+}
+
+function toggleChecklistItem(qId, idx, checked) {
+  userAnswers[`check_${qId}_${idx}`] = checked;
+  saveCurrentSession();
+}
+
+function showMissingChecklist(qId) {
+  const q = QUIZ_DATA[currentGrade].sections.essay.questions.find(item => item.id === qId);
+  const missing = [];
+  q.checklist.forEach((item, idx) => {
+    if (!userAnswers[`check_${qId}_${idx}`]) {
+      missing.push(item);
+    }
+  });
+
+  const target = document.getElementById(`missing_box_${qId}`);
+  if (missing.length === 0) {
+    target.innerHTML = `<span style="color:var(--success); font-weight:bold;">✓ Tuyệt vời! Bạn đã hoàn thành trọn vẹn tất cả các ý then chốt.</span>`;
+  } else {
+    target.innerHTML = `<strong>Ý cần bổ sung thêm:</strong><ul style="margin-left:1.25rem; margin-top:0.25rem;">${missing.map(m => `<li>${m}</li>`).join('')}</ul>`;
+  }
+}
+
+function saveEssayEval(qId, level) {
+  userAnswers[`eval_${qId}`] = level;
+  saveCurrentSession();
+  renderQuiz();
+}
+
+/* ==================== XỬ LÝ NỘP BÀI VÀ THỐNG KÊ ==================== */
+function confirmSubmitQuiz() {
+  const total = currentShuffledQuestions.length;
+  let unanswered = 0;
+
+  if (currentSectionKey === 'mcq') {
+    unanswered = currentShuffledQuestions.filter(q => userAnswers[q.id] === undefined).length;
+  } else if (currentSectionKey === 'tf') {
+    let un = 0;
+    currentShuffledQuestions.forEach(q => {
+      q.items.forEach(it => {
+        if (userAnswers[it.id] === undefined) un++;
+      });
+    });
+    unanswered = un;
+  } else {
+    unanswered = currentShuffledQuestions.filter(q => !(userAnswers[q.id] || '').trim()).length;
+  }
+
+  const msg = (unanswered > 0)
+    ? `Bạn còn <strong>${unanswered}</strong> mục chưa hoàn thành. Bạn có muốn tiếp tục nộp bài không?`
+    : `Bạn đã trả lời đầy đủ tất cả các câu. Hãy sẵn sàng nộp bài để xem phản hồi chi tiết!`;
+
+  document.getElementById("modal-submit-msg").innerHTML = msg;
+  document.getElementById("modal-submit").style.display = "flex";
+}
+
+function closeModal(id) {
+  document.getElementById(id).style.display = "none";
+}
+
+function executeSubmitQuiz() {
+  closeModal('modal-submit');
+  quizSubmitted = true;
+  saveCurrentSession();
+  renderQuiz();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function resetCurrentQuiz() {
+  if (confirm("Làm lượt mới sẽ đặt lại toàn bộ câu trả lời của phần này. Bạn có chắc chắn không?")) {
+    startQuiz(currentSectionKey, 'new');
+  }
+}
+
+/* ==================== GÓC GIÁO VIÊN BẢO MẬT ==================== */
+function openGvAuth() {
+  if (isTeacherUnlocked) {
+    document.getElementById("view-home").style.display = "none";
+    document.getElementById("view-sections").style.display = "none";
+    document.getElementById("view-quiz").style.display = "none";
+    document.getElementById("view-teacher").style.display = "block";
+    renderGvQuestions();
+    return;
+  }
+
+  const pass = prompt("Nhập mật khẩu truy cập Góc giáo viên:");
+  if (pass === "GV2026") {
+    isTeacherUnlocked = true;
+    document.getElementById("btn-gv").textContent = "Góc GV (Đang mở)";
+    openGvAuth();
+  } else if (pass !== null) {
+    alert("Mật khẩu không chính xác!");
+  }
+}
+
+function lockTeacher() {
+  isTeacherUnlocked = false;
+  document.getElementById("btn-gv").textContent = "Góc giáo viên";
+  goToHome();
+}
+
+function switchGvTab(tab) {
+  document.querySelectorAll(".nav-tab").forEach(t => t.classList.remove("active"));
+  if (tab === 'review') {
+    document.getElementById("gv-tab-review").style.display = "block";
+    document.getElementById("gv-tab-json").style.display = "none";
+  } else {
+    document.getElementById("gv-tab-review").style.display = "none";
+    document.getElementById("gv-tab-json").style.display = "block";
+  }
+}
+
+function renderGvQuestions() {
+  const container = document.getElementById("gv-questions-list");
+  container.innerHTML = "";
+  const sec = QUIZ_DATA.grade7.sections.mcq;
+
+  sec.questions.slice(0, 15).forEach((q, idx) => {
+    const card = document.createElement("div");
+    card.style.cssText = "padding:0.75rem; border:1px solid var(--border); border-radius:8px; margin-bottom:0.75rem; font-size:0.9rem;";
+    card.innerHTML = `
+      <div><strong>Mã [${q.id}]:</strong> ${q.text}</div>
+      <div style="margin-top:0.3rem; color:var(--success);"><strong>Đáp án đúng:</strong> ${q.options[q.correct]}</div>
+      <div style="margin-top:0.3rem; color:var(--text-muted);"><strong>Giải thích:</strong> ${q.explain}</div>
+    `;
+    container.appendChild(card);
+  });
+}
+
+function exportDataJson() {
+  const blob = new Blob([JSON.stringify(QUIZ_DATA, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `NganHang_OnTap_KHTN7_${DB_VERSION}.json`;
+  a.click();
+}
+
+function importDataJson() {
+  try {
+    const text = document.getElementById("import-json-area").value;
+    const parsed = JSON.parse(text);
+    if (!parsed.grade7) throw new Error("Cấu trúc JSON không hợp lệ");
+    alert("Nhập dữ liệu thành công!");
+    location.reload();
+  } catch (e) {
+    alert("Dữ liệu JSON không hợp lệ. Vui lòng kiểm tra lại!");
+  }
+}
+
+// Khởi chạy ban đầu
+window.onload = function() {
+  goToHome();
+};
+</script>
+</body>
+</html>
